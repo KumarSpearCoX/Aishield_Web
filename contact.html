@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — AIShield</title>
+<meta name="description" content="Get in touch with AIShield. Support, sales, and press inquiries — we respond within 24 hours." />
+<meta name="theme-color" content="#0a0a0f" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  .page-hero {
+    padding: 140px 0 40px;
+    text-align: center;
+  }
+  .page-hero h1 { margin-bottom: 18px; }
+  .page-hero .lede { margin: 0 auto 8px; }
+
+  .contact-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 14px;
+    margin: 0 auto 36px;
+    width: fit-content;
+    flex-wrap: wrap;
+  }
+  .contact-tab {
+    padding: 10px 22px;
+    font-size: 13.5px;
+    font-weight: 500;
+    border-radius: 10px;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: var(--font-display);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .contact-tab.active {
+    background: var(--indigo);
+    color: white;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+  }
+  .contact-tab:hover:not(.active) { color: var(--text); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto 80px;
+    align-items: start;
+  }
+
+  .contact-form-card {
+    padding: 36px;
+  }
+  .contact-form-card h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .contact-form-card .lede {
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .form-field {
+    margin-bottom: 14px;
+  }
+
+  textarea.input {
+    min-height: 130px;
+    resize: vertical;
+    font-family: var(--font-body);
+  }
+
+  /* Sidebar info */
+  .contact-sidebar { display: flex; flex-direction: column; gap: 14px; }
+  .contact-info-card {
+    padding: 24px;
+  }
+  .contact-info-card .icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--indigo-dim);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--indigo-light);
+    margin-bottom: 14px;
+  }
+  .contact-info-card h3 {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .contact-info-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 6px;
+  }
+  .contact-info-card a {
+    font-size: 13px;
+    color: var(--indigo-light);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .contact-info-card a:hover { text-decoration: underline; }
+
+  .response-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .form-pane { display: none; }
+  .form-pane.active { display: block; animation: fadeUp 0.3s ease; }
+
+  /* Success state */
+  .form-success {
+    text-align: center;
+    padding: 30px 0;
+    display: none;
+  }
+  .form-success.show { display: block; animation: fadeUp 0.4s ease; }
+  .form-success .icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .form-success h3 { font-size: 20px; margin-bottom: 10px; }
+  .form-success p { color: var(--muted); font-size: 14px; }
+
+  @media (max-width: 880px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-tab { padding: 9px 14px; font-size: 12.5px; }
+  }
+
+  /* Quick links cards row */
+  .quick-help {
+    padding: 60px 0 100px;
+  }
+  .quick-help-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .qh-card {
+    padding: 26px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .qh-card:hover { transform: translateY(-4px); }
+  .qh-card .icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    background: var(--indigo-dim);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--indigo-light);
+    margin: 0 auto 14px;
+  }
+  .qh-card h4 { font-size: 15px; margin-bottom: 6px; }
+  .qh-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  @media (max-width: 768px) {
+    .quick-help-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      AIShield
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#features" class="nav-link">Features</a>
+      <a href="pricing.html" class="nav-link">Pricing</a>
+      <a href="index.html#demo" class="nav-link">Try demo</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="pricing.html" class="btn btn-primary btn-sm">Shield me free</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow reveal">Get in touch</span>
+    <h1 class="reveal">Real humans. Fast answers.</h1>
+    <p class="lede reveal">Got a question? Need a custom plan? Curious about how we caught a particular scam? Pick your path below — we usually answer within hours.</p>
+  </div>
+</section>
+
+<section style="padding-top: 0">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="contact-tabs">
+        <button class="contact-tab active" data-tab="support">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Support
+        </button>
+        <button class="contact-tab" data-tab="sales">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Sales
+        </button>
+        <button class="contact-tab" data-tab="press">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+          Press
+        </button>
+      </div>
+    </div>
+
+    <div class="contact-grid">
+      <!-- ── SUPPORT FORM ──────────────────────────────────────── -->
+      <div class="glass contact-form-card form-pane active" id="pane-support">
+        <h2>Customer support</h2>
+        <p class="lede muted">Have a question, a bug to report, or trouble with your account? Drop us a line.</p>
+
+        <form id="form-support">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="field-label">Name</label>
+              <input class="input" type="text" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-field">
+              <label class="field-label">Email</label>
+              <input class="input" type="email" name="email" required placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Topic</label>
+            <select class="input" name="topic" required>
+              <option value="">Select a topic...</option>
+              <option>Bug or technical issue</option>
+              <option>Account access</option>
+              <option>Billing question</option>
+              <option>Feature request</option>
+              <option>Data request (PDPA / GDPR)</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Message</label>
+            <textarea class="input" name="message" required placeholder="Tell us what's happening..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Send message
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <div class="form-success" id="success-support">
+          <div class="icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Got it. We're on it.</h3>
+          <p>We typically respond within 24 hours (often much faster). Check your inbox shortly.</p>
+        </div>
+      </div>
+
+      <!-- ── SALES FORM ────────────────────────────────────────── -->
+      <div class="glass contact-form-card form-pane" id="pane-sales">
+        <h2>Talk to sales</h2>
+        <p class="lede muted">For teams, telcos, and enterprises. Tell us about your needs and we'll get back within 4 hours.</p>
+
+        <form id="form-sales">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="field-label">Full name</label>
+              <input class="input" type="text" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-field">
+              <label class="field-label">Work email</label>
+              <input class="input" type="email" name="email" required placeholder="you@company.com" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="field-label">Company</label>
+              <input class="input" type="text" name="company" required placeholder="Acme Inc" />
+            </div>
+            <div class="form-field">
+              <label class="field-label">Country</label>
+              <input class="input" type="text" name="country" placeholder="Malaysia" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="field-label">Team size</label>
+              <select class="input" name="size">
+                <option value="">Select...</option>
+                <option>1–50 employees</option>
+                <option>51–250 employees</option>
+                <option>251–1,000 employees</option>
+                <option>1,000+ employees</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="field-label">Use case</label>
+              <select class="input" name="usecase">
+                <option value="">Select...</option>
+                <option>Workforce protection</option>
+                <option>Telco / carrier integration</option>
+                <option>Customer-facing security</option>
+                <option>White-label / OEM</option>
+                <option>Government / public sector</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Tell us more</label>
+            <textarea class="input" name="message" required placeholder="What problem are you trying to solve? Number of devices, deployment timeline, integrations needed..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Request a call
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <div class="form-success" id="success-sales">
+          <div class="icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Thanks — we'll be in touch.</h3>
+          <p>Our team responds to qualified enterprise inquiries within 4 hours during business hours (UTC+8).</p>
+        </div>
+      </div>
+
+      <!-- ── PRESS FORM ────────────────────────────────────────── -->
+      <div class="glass contact-form-card form-pane" id="pane-press">
+        <h2>Press & media</h2>
+        <p class="lede muted">For journalists, analysts, and podcast hosts covering AI security. We're happy to talk.</p>
+
+        <form id="form-press">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="field-label">Your name</label>
+              <input class="input" type="text" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-field">
+              <label class="field-label">Email</label>
+              <input class="input" type="email" name="email" required placeholder="you@publication.com" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="field-label">Publication / outlet</label>
+              <input class="input" type="text" name="outlet" required placeholder="Your publication" />
+            </div>
+            <div class="form-field">
+              <label class="field-label">Deadline</label>
+              <input class="input" type="text" name="deadline" placeholder="e.g. Friday EOD" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">What are you working on?</label>
+            <textarea class="input" name="message" required placeholder="Brief description of your story angle..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Send press inquiry
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <div class="form-success" id="success-press">
+          <div class="icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Message received.</h3>
+          <p>For tight deadlines, also email <a href="mailto:press@aishield.com" style="color:var(--indigo-light)">press@aishield.com</a> directly.</p>
+        </div>
+      </div>
+
+      <!-- ── SIDEBAR INFO ──────────────────────────────────────── -->
+      <aside class="contact-sidebar">
+        <div class="glass contact-info-card reveal">
+          <div class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h3>Direct emails</h3>
+          <p>Skip the form if you prefer.</p>
+          <a href="mailto:support@aishield.com">support@aishield.com →</a><br>
+          <a href="mailto:sales@aishield.com">sales@aishield.com →</a><br>
+          <a href="mailto:press@aishield.com">press@aishield.com →</a><br>
+          <a href="mailto:dpo@aishield.com">dpo@aishield.com →</a>
+        </div>
+
+        <div class="glass contact-info-card reveal">
+          <div class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Response times</h3>
+          <p>Support: within 24 hours<br>Sales: within 4 hours (business hours)<br>Press: within 12 hours</p>
+          <span class="response-time">
+            <span class="live-dot"></span>
+            Currently fast — most under 6h
+          </span>
+        </div>
+
+        <div class="glass contact-info-card reveal">
+          <div class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3>Office</h3>
+          <p>SpearCompute Sdn Bhd<br>Selangor, Malaysia</p>
+          <p style="font-size:12px; color:var(--dim); margin-top:8px">Working hours: Mon–Fri, 9am–6pm UTC+8</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUICK HELP CARDS ═══════════════════════════════════════════════ -->
+<section class="quick-help">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Maybe faster</span>
+      <h2>Common questions, answered.</h2>
+    </div>
+
+    <div class="quick-help-grid">
+      <a href="pricing.html" class="glass qh-card reveal">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h4>Pricing & plans</h4>
+        <p>Compare Free, Pro, and Enterprise. Trial info, refunds.</p>
+      </a>
+      <a href="privacy.html" class="glass qh-card reveal">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h4>Privacy & data</h4>
+        <p>How we handle your data. PDPA & GDPR rights.</p>
+      </a>
+      <a href="index.html#demo" class="glass qh-card reveal">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20"/></svg>
+        </div>
+        <h4>Try the demo</h4>
+        <p>See AIShield analyze a threat live, no signup needed.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex">
+          <div class="nav-logo-mark">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          AIShield
+        </a>
+        <p>The first mobile defense built for AI-generated threats. by SpearCompute Sdn Bhd.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="index.html#features">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="index.html#demo">Try demo</a>
+        <a href="#">Download app</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy.html#pdpa">PDPA Notice</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html#cookies">Cookie Policy</a>
+        <a href="#" data-reopen-consent>Manage consent</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="contact.html">Support</a>
+        <a href="contact.html?type=sales">Talk to sales</a>
+        <a href="mailto:dpo@aishield.com">Data requests</a>
+        <a href="mailto:hello@aishield.com">hello@aishield.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 SpearCompute Sdn Bhd · All rights reserved</div>
+      <div class="footer-status">
+        <span class="live-dot"></span>
+        <span>All systems operational</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-banner glass" id="cookie-banner">
+  <p><strong style="color:var(--indigo-light)">🍪 We use cookies.</strong> AIShield uses essential cookies and (with consent) analytics. <a href="privacy.html" style="color:var(--indigo-light);text-decoration:underline">PDPA</a> & <a href="privacy.html" style="color:var(--indigo-light);text-decoration:underline">GDPR</a> compliant.</p>
+  <div class="cookie-actions">
+    <button class="btn btn-primary btn-sm" data-consent="all">Accept all</button>
+    <button class="btn btn-secondary btn-sm" data-consent="necessary">Necessary only</button>
+    <a href="privacy.html#cookies" class="btn btn-ghost btn-sm">Customize</a>
+  </div>
+</div>
+
+<div class="chat-fab">
+  <span class="chat-fab-label">Got a question? Ask 👋</span>
+  <button class="chat-fab-button" id="chat-fab" aria-label="Open chat">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </button>
+</div>
+<div class="chat-panel glass" id="chat-panel">
+  <div class="chat-header">
+    <div><h4>AIShield Assistant</h4><span class="muted"><span class="live-dot"></span> Powered by Claude</span></div>
+    <button class="chat-close" id="chat-close" aria-label="Close chat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-msg bot">Hi 👋 Looking for something specific? I can answer questions or point you to the right team.</div>
+  </div>
+  <div class="chat-input-wrap">
+    <input id="chat-input" placeholder="Type your question..." />
+    <button class="btn btn-primary btn-sm" id="chat-send">Send</button>
+  </div>
+</div>
+
+<div class="mobile-cta">
+  <a href="pricing.html" class="btn btn-primary">Shield me now — free for 7 days →</a>
+</div>
+
+<script src="assets/shared.js"></script>
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.contact-tab');
+  const panes = document.querySelectorAll('.form-pane');
+  const showTab = (key) => {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === key));
+    panes.forEach(p => p.classList.toggle('active', p.id === 'pane-' + key));
+  };
+  tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+
+  // Deep link via ?type=sales etc.
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type');
+  if (type && ['support','sales','press'].includes(type)) showTab(type);
+
+  // Form handling — simulated until backend is wired
+  ['support','sales','press'].forEach(key => {
+    const form = document.getElementById('form-' + key);
+    const success = document.getElementById('success-' + key);
+    if (!form) return;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // TODO: POST to /api/contact endpoint
+      // For now: simulate success
+      const submitBtn = form.querySelector('button[type=submit]');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Sending...';
+      setTimeout(() => {
+        form.style.display = 'none';
+        success.classList.add('show');
+      }, 700);
+    });
+  });
+</script>
+
+</body>
+</html>

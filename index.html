@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AIShield — Your phone, defended against AI</title>
+<meta name="description" content="AIShield blocks AI voice clones, deepfake calls, and LLM-powered scams that traditional security can't see. Powered by Claude." />
+<meta property="og:title" content="AIShield — Your phone, defended against AI" />
+<meta property="og:description" content="The first mobile defense built for AI-generated threats. Try free for 7 days." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0a0a0f" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  /* ── HERO ──────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    padding: 140px 0 80px;
+    overflow: hidden;
+    --mx: 50%;
+    --my: 30%;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at var(--mx) var(--my),
+      rgba(99, 102, 241, 0.18),
+      transparent 40%
+    );
+    pointer-events: none;
+    transition: background 0.3s ease;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6.5vw, 72px);
+    margin-bottom: 22px;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(120deg, var(--indigo-light), var(--indigo) 60%, var(--purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 200% 100%;
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  .hero .lede {
+    margin-bottom: 30px;
+    font-size: clamp(15px, 1.6vw, 19px);
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .hero-trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 28px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 22px;
+    margin-top: 8px;
+  }
+  .hero-trust-strip span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-trust-strip .ico {
+    color: var(--indigo-light);
+  }
+
+  /* Live counter chip */
+  .live-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+  .live-counter .mono { color: var(--green); font-weight: 600; }
+
+  /* Phone mockup */
+  .phone-mockup {
+    position: relative;
+    aspect-ratio: 9/19;
+    max-width: 340px;
+    margin: 0 auto;
+    border-radius: 44px;
+    background: linear-gradient(160deg, #1a1a24, #0a0a0f);
+    border: 8px solid #1f1f2e;
+    box-shadow:
+      0 30px 80px rgba(99, 102, 241, 0.25),
+      0 0 0 1px rgba(99, 102, 241, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    padding: 18px;
+  }
+  .phone-notch {
+    position: absolute; top: 12px; left: 50%;
+    transform: translateX(-50%);
+    width: 90px; height: 24px;
+    background: #000; border-radius: 14px;
+    z-index: 5;
+  }
+  .phone-screen {
+    height: 100%;
+    background: linear-gradient(180deg, var(--bg), var(--surface));
+    border-radius: 30px;
+    padding: 36px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .phone-status-bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .threat-card {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    animation: fadeUp 0.6s ease backwards;
+  }
+  .threat-card:nth-child(2) { animation-delay: 0.3s; }
+  .threat-card:nth-child(3) { animation-delay: 0.6s; }
+  .threat-card.blocked {
+    background: rgba(34, 197, 94, 0.06);
+    border-color: rgba(34, 197, 94, 0.25);
+  }
+  .threat-card-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+  }
+  .threat-card-title {
+    font-size: 11px; font-weight: 600;
+    color: var(--red);
+  }
+  .threat-card.blocked .threat-card-title { color: var(--green); }
+  .threat-card-time {
+    font-size: 9px; color: var(--dim);
+    font-family: var(--font-mono);
+  }
+  .threat-card-msg {
+    font-size: 11px; color: var(--muted);
+    line-height: 1.4;
+  }
+  .threat-card-action {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 600;
+    margin-top: 8px;
+    color: var(--green);
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 110px 0 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .phone-mockup { max-width: 260px; }
+  }
+
+  /* ── THREAT SECTION ──────────────────────────────────────── */
+  .threats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .threat-tile {
+    padding: 28px 24px;
+    transition: transform 0.4s ease, border-color 0.3s ease;
+  }
+  .threat-tile:hover {
+    transform: translateY(-4px) perspective(800px) rotateX(2deg);
+  }
+  .threat-tile-visual {
+    aspect-ratio: 16/10;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, var(--card-hi), var(--surface));
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+  }
+  .threat-tile h3 { margin-bottom: 8px; }
+  .threat-tile-stat {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--red);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .threat-tile p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+  /* Visual placeholders for threat videos */
+  .visual-voice { background: radial-gradient(circle at 30% 50%, rgba(168, 85, 247, 0.25), transparent 60%), linear-gradient(135deg, #1a1a24, #0a0a0f); }
+  .visual-call { background: radial-gradient(circle at 70% 40%, rgba(239, 68, 68, 0.25), transparent 60%), linear-gradient(135deg, #1a1a24, #0a0a0f); }
+  .visual-sms { background: radial-gradient(circle at 50% 60%, rgba(245, 158, 11, 0.2), transparent 60%), linear-gradient(135deg, #1a1a24, #0a0a0f); }
+
+  .visual-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    opacity: 0.85;
+  }
+  .visual-icon svg {
+    width: 56px; height: 56px;
+    filter: drop-shadow(0 4px 14px rgba(99, 102, 241, 0.4));
+  }
+  /* Wave lines for voice */
+  .wave-bar {
+    width: 4px;
+    background: var(--indigo-light);
+    margin: 0 2px;
+    border-radius: 2px;
+    animation: wave 1.2s ease-in-out infinite;
+  }
+  .wave-container {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0;
+  }
+  @keyframes wave {
+    0%, 100% { height: 12px; opacity: 0.4; }
+    50% { height: 36px; opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .threats-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── DEMO WIDGET ─────────────────────────────────────────── */
+  .demo-section { padding-top: 40px; }
+  .demo-widget {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .demo-widget::before {
+    content: '';
+    position: absolute;
+    top: -30%; left: -10%;
+    width: 60%; height: 200%;
+    background: radial-gradient(ellipse, var(--indigo-glow), transparent 70%);
+    opacity: 0.3;
+    pointer-events: none;
+    animation: float-blob 8s ease-in-out infinite;
+  }
+  .demo-widget > * { position: relative; }
+  .demo-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  .demo-tab {
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--muted);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .demo-tab.active { background: var(--indigo-dim); color: var(--indigo-light); }
+  textarea.demo-input {
+    width: 100%;
+    min-height: 110px;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.55;
+    resize: vertical;
+    margin-bottom: 14px;
+  }
+  textarea.demo-input:focus { outline: none; border-color: var(--indigo); }
+  .demo-examples {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .demo-example {
+    padding: 5px 11px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11.5px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .demo-example:hover {
+    border-color: var(--indigo);
+    color: var(--indigo-light);
+  }
+  .demo-result {
+    margin-top: 18px;
+    padding: 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: none;
+  }
+  .demo-result.show { display: block; animation: fadeUp 0.4s ease; }
+  .demo-result.threat { border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.04); }
+  .demo-result.warning { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.04); }
+  .demo-result.safe { border-color: rgba(34, 197, 94, 0.4); background: rgba(34, 197, 94, 0.04); }
+  .demo-verdict {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .demo-verdict.threat { color: var(--red); }
+  .demo-verdict.warning { color: var(--amber); }
+  .demo-verdict.safe { color: var(--green); }
+  .demo-reasoning {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
+  .demo-cta-strip {
+    margin-top: 24px; padding-top: 18px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .demo-cta-strip p { font-size: 13.5px; color: var(--muted); }
+
+  /* ── FEATURES ────────────────────────────────────────────── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .feature-card {
+    padding: 24px;
+    transition: all 0.3s ease;
+  }
+  .feature-icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    background: var(--indigo-dim);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--indigo-light);
+    margin-bottom: 16px;
+  }
+  .feature-card h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .feature-card p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  @media (max-width: 768px) {
+    .features-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── PRICING ─────────────────────────────────────────────── */
+  .billing-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 999px;
+    margin: 0 auto 36px;
+  }
+  .billing-switch button {
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 999px;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: var(--font-display);
+  }
+  .billing-switch button.active {
+    background: var(--indigo);
+    color: white;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  }
+  .billing-save {
+    display: inline-block;
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+  .price-card {
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .price-card.featured {
+    border: 1.5px solid var(--indigo);
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.06), var(--glass-bg));
+    transform: scale(1.02);
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+  }
+  .price-card.featured::before {
+    content: 'Most Popular';
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(120deg, var(--indigo), var(--purple));
+    color: white;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+  }
+  .price-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--glass-border-hi);
+  }
+  .price-card.featured:hover { transform: scale(1.02) translateY(-4px); }
+
+  .price-tier {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .price-card.featured .price-tier { color: var(--indigo-light); }
+  .price-amount {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .price-amount .currency { font-size: 24px; vertical-align: super; color: var(--muted); }
+  .price-amount .period { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .price-tagline {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    min-height: 38px;
+  }
+  .price-features {
+    list-style: none;
+    margin-bottom: 24px;
+    flex: 1;
+  }
+  .price-features li {
+    padding: 7px 0;
+    font-size: 13.5px;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+  }
+  .price-features svg {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--green);
+  }
+  .price-features li.dim { color: var(--dim); }
+  .price-features li.dim svg { color: var(--dim); }
+
+  .price-trust-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 32px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .price-trust-bar span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .price-trust-bar svg { color: var(--green); }
+
+  @media (max-width: 768px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    .price-card.featured { transform: none; }
+  }
+
+  /* ── TRUST STRIP ─────────────────────────────────────────── */
+  .trust-strip {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .trust-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+  .trust-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .trust-pill svg { color: var(--indigo-light); }
+
+  .trust-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .stat-num .accent { color: var(--indigo-light); }
+  .stat-label {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  @media (max-width: 768px) {
+    .trust-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── BIG BANG SECTIONS ───────────────────────────────────── */
+
+  /* World Threat Map / Global scale */
+  .global-scale {
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.08), transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.08), transparent 60%),
+      var(--bg);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .global-scale::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .global-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .global-card {
+    padding: 32px 28px;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+  }
+  .global-card:hover { transform: translateY(-4px); }
+  .global-card .num {
+    font-family: var(--font-mono);
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--indigo-light), var(--purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+  }
+  .global-card h3 {
+    font-size: 19px;
+    margin-bottom: 8px;
+  }
+  .global-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .global-card .source {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Capability showcase */
+  .capability-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .cap-card {
+    padding: 22px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  .cap-card:hover { transform: translateY(-3px); }
+  .cap-card .cap-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--indigo-dim);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--indigo-light);
+    margin: 0 auto 12px;
+  }
+  .cap-card h4 { font-size: 14px; margin-bottom: 4px; }
+  .cap-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* Trust Pillars (3 big columns) */
+  .pillars {
+    background: var(--bg);
+    padding: 100px 0;
+  }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+  }
+  .pillar {
+    padding: 36px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--indigo), transparent);
+    opacity: 0.5;
+  }
+  .pillar-icon {
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--indigo-dim), rgba(168, 85, 247, 0.15));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--indigo-light);
+    margin: 0 auto 22px;
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.15);
+  }
+  .pillar h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .pillar p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+  .pillar-list {
+    list-style: none;
+    text-align: left;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .pillar-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 6px 0;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .pillar-list svg { color: var(--green); flex-shrink: 0; margin-top: 3px; }
+
+  /* How it works (timeline) */
+  .how-it-works {
+    background: var(--surface);
+    padding: 100px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline {
+    max-width: 880px;
+    margin: 56px auto 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 32px; top: 32px; bottom: 32px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--indigo), var(--purple));
+    opacity: 0.4;
+  }
+  .step {
+    position: relative;
+    padding-left: 90px;
+    margin-bottom: 36px;
+  }
+  .step:last-child { margin-bottom: 0; }
+  .step-num {
+    position: absolute;
+    left: 0;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--indigo), var(--purple));
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 22px;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    z-index: 2;
+  }
+  .step-content {
+    padding: 18px 24px;
+    border-radius: 14px;
+  }
+  .step-content h3 { font-size: 17px; margin-bottom: 6px; }
+  .step-content p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+  .step-content .time {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--indigo-light);
+    background: var(--indigo-dim);
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+  }
+
+  /* Final CTA banner */
+  .final-cta {
+    padding: 100px 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.18), transparent 60%),
+      var(--bg);
+    text-align: center;
+    border-top: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, var(--indigo-glow), transparent 70%);
+    opacity: 0.15;
+    animation: float-blob 14s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .final-cta-inner {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .final-cta h2 {
+    font-size: clamp(36px, 6vw, 60px);
+    margin-bottom: 22px;
+    letter-spacing: -0.025em;
+  }
+  .final-cta h2 .accent {
+    background: linear-gradient(120deg, var(--indigo-light), var(--purple) 60%, var(--indigo-light));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 200% 100%;
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  .final-cta p {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 36px;
+  }
+  .final-cta-strip {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 26px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .final-cta-strip span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .final-cta-strip svg { color: var(--green); }
+
+  @media (max-width: 768px) {
+    .global-grid { grid-template-columns: 1fr; }
+    .capability-grid { grid-template-columns: repeat(2, 1fr); }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .step { padding-left: 76px; }
+    .step-num { width: 52px; height: 52px; font-size: 18px; }
+    .timeline::before { left: 26px; }
+    .global-card .num { font-size: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ════════════════════════════════════════════════════════════ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      AIShield
+    </a>
+    <nav class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#demo" class="nav-link">Try demo</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="#pricing" class="btn btn-primary btn-sm">Shield me free</a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════════════════ -->
+<section class="hero" data-spotlight>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="live-counter">
+          <span class="live-dot"></span>
+          <span class="mono">Beta</span>
+          <span>Get early access — limited spots</span>
+        </div>
+        <h1>Your phone isn't ready for what's coming. <span class="accent">We are.</span></h1>
+        <p class="lede">
+          AI just gave scammers superpowers. Fake voices that sound like your mom. Video calls wearing your boss's face. Messages that know your name. <strong style="color:var(--text)">AIShield is the wall between them and you.</strong>
+        </p>
+        <div class="hero-ctas">
+          <a href="#pricing" class="btn btn-primary btn-lg">
+            Shield me now — free for 7 days
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#demo" class="btn btn-secondary btn-lg">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
+            See it catch a scam live
+          </a>
+        </div>
+        <div class="hero-trust-strip">
+          <span><svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> PDPA Compliant</span>
+          <span><svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg> GDPR Compliant</span>
+          <span><svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg> Powered by Claude</span>
+        </div>
+      </div>
+
+      <!-- Phone mockup -->
+      <div>
+        <div class="phone-mockup">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-status-bar">
+              <span class="mono">9:41</span>
+              <span style="display:flex;gap:4px;align-items:center;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                AIShield
+              </span>
+            </div>
+            <div class="threat-card">
+              <div class="threat-card-head">
+                <span class="threat-card-title">⚠ Voice clone detected</span>
+                <span class="threat-card-time">just now</span>
+              </div>
+              <div class="threat-card-msg">"Hi mom, it's me. I'm in trouble, please send money..."</div>
+            </div>
+            <div class="threat-card blocked">
+              <div class="threat-card-head">
+                <span class="threat-card-title">✓ Phishing SMS blocked</span>
+                <span class="threat-card-time">2m ago</span>
+              </div>
+              <div class="threat-card-msg">Fake bank login link from unknown sender</div>
+              <div class="threat-card-action">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Auto-blocked by AIShield
+              </div>
+            </div>
+            <div class="threat-card blocked">
+              <div class="threat-card-head">
+                <span class="threat-card-title">✓ Deepfake call dropped</span>
+                <span class="threat-card-time">14m ago</span>
+              </div>
+              <div class="threat-card-msg">AI-synthesized voice from unknown number</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THREATS SECTION ════════════════════════════════════════════════ -->
+<section id="threats">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">The new threat landscape</span>
+      <h2>If your phone got the call right now,<br>would you know it was fake?</h2>
+      <p class="lede">3 seconds of audio. That's all it takes. AI can now copy your kid's voice, your boss's face, your bank's writing style — and your phone has no clue. AIShield does.</p>
+    </div>
+
+    <div class="threats-grid">
+      <article class="glass threat-tile reveal">
+        <div class="threat-tile-visual visual-voice">
+          <div class="wave-container">
+            <div class="wave-bar" style="animation-delay: 0s"></div>
+            <div class="wave-bar" style="animation-delay: 0.1s"></div>
+            <div class="wave-bar" style="animation-delay: 0.2s"></div>
+            <div class="wave-bar" style="animation-delay: 0.15s"></div>
+            <div class="wave-bar" style="animation-delay: 0.05s"></div>
+            <div class="wave-bar" style="animation-delay: 0.25s"></div>
+            <div class="wave-bar" style="animation-delay: 0.1s"></div>
+            <div class="wave-bar" style="animation-delay: 0.2s"></div>
+            <div class="wave-bar" style="animation-delay: 0s"></div>
+          </div>
+        </div>
+        <span class="threat-tile-stat">⚠ Billions stolen worldwide</span>
+        <h3>"Mom, I'm in trouble."</h3>
+        <p>It sounds exactly like your son. Crying. Begging. Asking you to wire money — fast. Except your son is at home. The voice was cloned from a 3-second clip on his Instagram. <strong style="color:var(--text)">This happened today, somewhere in the world.</strong></p>
+      </article>
+
+      <article class="glass threat-tile reveal">
+        <div class="threat-tile-visual visual-call">
+          <div class="visual-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+        </div>
+        <span class="threat-tile-stat">⚠ A growing nightmare</span>
+        <h3>The face on the call isn't real.</h3>
+        <p>Your CEO joins the video call and tells you to transfer the funds — urgent, confidential, just do it. The face is theirs. The voice is theirs. The person? Doesn't exist. Wearing an AI mask in real-time. <strong style="color:var(--text)">Even your eyes lie now.</strong></p>
+      </article>
+
+      <article class="glass threat-tile reveal">
+        <div class="threat-tile-visual visual-sms">
+          <div class="visual-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+        </div>
+        <span class="threat-tile-stat">⚠ Your filters won't catch it</span>
+        <h3>The scam knows your name.</h3>
+        <p>"Hey [your name], saw you just got back from [your trip]. Quick favor —" It's not your friend. It's an AI that read your social media in 4 seconds and wrote a message so personal you'd never question it. <strong style="color:var(--text)">Until your bank account is empty.</strong></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEMO WIDGET ════════════════════════════════════════════════════ -->
+<section id="demo" class="demo-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Try it now — no signup</span>
+      <h2>Paste any message. Watch us catch it.</h2>
+      <p class="lede">Don't take our word for it. Drop in a suspicious text, link, or DM right here. Our AI will tell you in seconds if it's a trap — and exactly why.</p>
+    </div>
+
+    <div class="glass demo-widget reveal">
+      <textarea
+        class="demo-input"
+        id="demo-input"
+        placeholder="Paste a suspicious message, URL, or SMS here... e.g. 'YOUR BANK: Your account is locked, verify now at bank-secure.xyz/login'"></textarea>
+
+      <div class="demo-examples">
+        <span class="muted" style="font-size:11.5px;align-self:center;margin-right:4px">Try:</span>
+        <button class="demo-example" data-example="YOUR BANK: Suspicious login detected. Verify identity now at https://bank-verify-2026.com or your account will be locked in 24 hours.">Bank phishing SMS</button>
+        <button class="demo-example" data-example="Hi! It's me, your nephew. I'm overseas and lost my wallet. Can you transfer some money to this account quickly? I'll explain everything later.">Family emergency scam</button>
+        <button class="demo-example" data-example="Congratulations! You've been selected for a tax refund. Click here to claim: https://refund-gov-secure.com/claim?id=8273">Government impersonation</button>
+        <button class="demo-example" data-example="Hello, I just transferred $50,000 to your office for the property deposit as we agreed. Please confirm receipt and proceed with the paperwork. -CEO">CEO fraud</button>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="demo-analyze">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Analyze with Claude
+        </button>
+        <button class="btn btn-ghost btn-sm" id="demo-clear">Clear</button>
+      </div>
+
+      <div class="demo-result" id="demo-result">
+        <div class="demo-verdict" id="demo-verdict"></div>
+        <div class="demo-reasoning" id="demo-reasoning"></div>
+      </div>
+
+      <div class="demo-cta-strip">
+        <p>That was one message. Imagine this running on every text, call, and link — 24/7.</p>
+        <a href="#pricing" class="btn btn-primary btn-sm">
+          Get protected →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══════════════════════════════════════════════════════ -->
+<section id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">What's inside</span>
+      <h2>Six superpowers your phone never had.</h2>
+      <p class="lede">Each one stops a different kind of AI scam dead. Together, they're the most complete shield ever built for a phone.</p>
+    </div>
+
+    <div class="features-grid">
+      <article class="glass feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L4 6 v6 c0 5 3 8 8 10 5-2 8-5 8-10 V6 z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Sixth Sense</h3>
+        <p>That gut feeling something's off? We've got an AI version, and it's faster. Every message, call, and link gets X-rayed before it reaches you. Threats die in 80 milliseconds — quicker than a blink.</p>
+      </article>
+
+      <article class="glass feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+        </div>
+        <h3>Voice Lie Detector</h3>
+        <p>Fake voices fool ears. They don't fool us. We hear what humans can't — the tiny tells inside every cloned voice. The "your daughter is in trouble" call gets shut down before your heart drops.</p>
+      </article>
+
+      <article class="glass feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Link Bouncer</h3>
+        <p>Tap-shame is real. We make sure you never feel it. Every link gets opened in our test box first — the second something looks like a fake bank, fake delivery, or fake you-name-it, it's blocked.</p>
+      </article>
+
+      <article class="glass feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <h3>App Watchdog</h3>
+        <p>That free flashlight app shouldn't need your microphone. We catch every app that's getting too nosy and let you shut it down with one tap. Auto-cleanup runs while you sleep.</p>
+      </article>
+
+      <article class="glass feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <h3>Heads-Up Alerts</h3>
+        <p>The moment we kill a threat, you get a heads-up — with the receipt. What it was, who sent it, why it was dangerous. No tech jargon. No mystery. Just the truth, in plain English.</p>
+      </article>
+
+      <article class="glass feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3>Mind Trick Blocker</h3>
+        <p>The newest scam? Hidden commands buried inside emails and pictures designed to hijack your phone's AI helpers. Mind tricks for machines. We see them. We stop them. You'd never know they tried.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ════════════════════════════════════════════════════════ -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Pricing</span>
+      <h2>Cheaper than getting scammed once.</h2>
+      <p class="lede">Start free. Try Pro for a week, no card. Cancel in two taps. The price of one bad coffee a month for protection that pays for itself instantly.</p>
+    </div>
+
+    <div class="text-center reveal">
+      <div class="billing-switch">
+        <button class="active" id="bill-monthly">Monthly</button>
+        <button id="bill-annual">Annual <span class="billing-save">Save 20%</span></button>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <article class="glass price-card reveal">
+        <div class="price-tier">Free</div>
+        <div class="price-amount"><span class="currency">$</span>0<span class="period">/forever</span></div>
+        <p class="price-tagline">Better than nothing. Way better.</p>
+        <ul class="price-features">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 deep scans per week</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Basic SMS & link scanner</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Permission auditor</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Email alerts</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1 device</li>
+          <li class="dim"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Voice clone detection</li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Start free</a>
+      </article>
+
+      <!-- PRO (featured) -->
+      <article class="glass price-card featured reveal">
+        <div class="price-tier">Pro</div>
+        <div class="price-amount" data-price-monthly>
+          <span class="currency">$</span>4.99<span class="period">/month</span>
+        </div>
+        <div class="price-amount" data-price-annual style="display:none">
+          <span class="currency">$</span>3.99<span class="period">/month, billed yearly</span>
+        </div>
+        <p class="price-tagline">Sleep well. AIShield's awake.</p>
+        <ul class="price-features">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Unlimited</strong> AI threat scans</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Voice clone detection</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Deepfake call protection</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Real-time push + SMS alerts</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Multi-device sync (up to 5)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1-year threat history</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>24h priority support</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Shield me — try free →</a>
+      </article>
+
+      <!-- ENTERPRISE -->
+      <article class="glass price-card reveal">
+        <div class="price-tier">Enterprise</div>
+        <div class="price-amount">Custom<span class="period" style="display:block;font-size:13px;margin-top:6px">talk to sales</span></div>
+        <p class="price-tagline">Built for the boardroom. Used by the IT team.</p>
+        <ul class="price-features">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Everything in Pro</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited devices</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>SSO / SAML</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>API access</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>SIEM integration</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Dedicated CSM</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Compliance reports (PDPA / GDPR / SOC 2)</li>
+        </ul>
+        <a href="contact.html" class="btn btn-secondary">Talk to sales →</a>
+      </article>
+    </div>
+
+    <div class="price-trust-bar">
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> No credit card required</span>
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Cancel anytime</span>
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 30-day money back</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST STRIP ════════════════════════════════════════════════════ -->
+<section class="trust-strip">
+  <div class="container">
+    <div class="section-head reveal" style="margin-bottom: 32px">
+      <span class="eyebrow">By the numbers</span>
+      <h2>Every second, scammers get smarter.<br><span class="accent" style="background:linear-gradient(120deg,var(--indigo-light),var(--purple));background-clip:text;-webkit-background-clip:text;color:transparent;">So do we.</span></h2>
+      <p class="lede">AIShield runs around the clock so you don't have to think about it. Here's what that looks like in numbers.</p>
+    </div>
+
+    <div class="trust-row reveal">
+      <span class="glass trust-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        PDPA Compliant
+      </span>
+      <span class="glass trust-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+        GDPR Compliant
+      </span>
+      <span class="glass trust-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 3 8 8 10 5-2 8-5 8-10V6z"/></svg>
+        Powered by Claude
+      </span>
+      <span class="glass trust-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Cloudflare Secured
+      </span>
+    </div>
+
+    <div class="trust-stats">
+      <div class="reveal">
+        <div class="stat-num"><span class="accent">$</span><span data-counter="12.5">0</span><span class="accent">B</span></div>
+        <div class="stat-label">Stolen by AI scams in 2024</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-num"><span data-counter="2400">0</span><span class="accent">+</span></div>
+        <div class="stat-label">Scam patterns we recognize</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-num"><span data-counter="80">0</span><span class="accent" style="font-size:18px">ms</span></div>
+        <div class="stat-label">How fast we strike back</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-num"><span data-counter="24">0</span><span class="accent">/7</span></div>
+        <div class="stat-label">We sleep so you can</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GLOBAL SCALE — what we're up against ═══════════════════════════ -->
+<section class="global-scale">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">The new reality</span>
+      <h2>This isn't fearmongering.<br><span class="accent" style="background:linear-gradient(120deg,var(--indigo-light),var(--purple));background-clip:text;-webkit-background-clip:text;color:transparent;">It's the news.</span></h2>
+      <p class="lede">AI gave criminals a power-up the world wasn't ready for. Here's the scale of what's already happening — and why standard phone security is a step behind.</p>
+    </div>
+
+    <div class="global-grid">
+      <div class="glass global-card reveal">
+        <div class="num">$12.5B</div>
+        <h3>Stolen by AI scams in 2024</h3>
+        <p>Voice clone scams, deepfake fraud, and AI phishing combined cost victims worldwide more than a small country's GDP — and that's only what got reported. The real number is much higher.</p>
+        <div class="source">Industry & government reports, 2024</div>
+      </div>
+
+      <div class="glass global-card reveal">
+        <div class="num">3 seconds</div>
+        <h3>That's all a scammer needs</h3>
+        <p>Three seconds of your voice from a video clip, a voicemail, or a social post. That's enough for free online tools to clone you convincingly. Your kids. Your boss. Anyone.</p>
+        <div class="source">Public AI voice tool capabilities</div>
+      </div>
+
+      <div class="glass global-card reveal">
+        <div class="num">1 in 4</div>
+        <h3>Adults hit by AI scams</h3>
+        <p>One in four adults received an AI-powered scam attempt in the past year. The number doubled from the year before. It's on track to double again this year.</p>
+        <div class="source">Consumer cybersecurity surveys</div>
+      </div>
+
+      <div class="glass global-card reveal">
+        <div class="num">0%</div>
+        <h3>Of basic phone security covers this</h3>
+        <p>Your phone's built-in protection was built for viruses and obvious spam from a decade ago. It wasn't built for AI fakes that pass every old test. AIShield is.</p>
+        <div class="source">Why this category exists</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══════════════════════════════════════════════════ -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">How AIShield works</span>
+      <h2>Four steps. Eighty milliseconds.<br>Zero scams getting through.</h2>
+      <p class="lede">From the moment a message hits your phone to the moment it's blocked — here's exactly what happens.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <div class="glass step-content">
+          <span class="time">0ms</span>
+          <h3>Something arrives</h3>
+          <p>A text. A call. A link. An email. Whatever lands on your phone — AIShield is already watching, before you even hear the notification.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <div class="glass step-content">
+          <span class="time">0–40ms</span>
+          <h3>We dissect it</h3>
+          <p>Our AI takes it apart. Voice patterns. Writing style. Hidden code in links. Suspicious metadata. The kinds of clues humans miss but machines spot instantly.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <div class="glass step-content">
+          <span class="time">40–80ms</span>
+          <h3>We decide</h3>
+          <p>Safe? It passes through quietly. Suspicious? We block it instantly and tell you why — in plain English. No tech jargon. No false alarms. Just the truth.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <div class="glass step-content">
+          <span class="time">Always</span>
+          <h3>We learn and grow</h3>
+          <p>Every new scam style we see makes us smarter for everyone. The AI gets sharper every day — without you ever lifting a finger or sharing your data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THREE PILLARS ══════════════════════════════════════════════════ -->
+<section class="pillars">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why AIShield</span>
+      <h2>Built on three promises.</h2>
+      <p class="lede">Not slogans. Promises. The kind we'll be measured on.</p>
+    </div>
+
+    <div class="pillars-grid">
+      <article class="glass pillar reveal">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <h3>Lightning fast</h3>
+        <p>Threats die before you ever see the notification. No "checking..." spinner. No "sandboxing..." delay. Just instant.</p>
+        <ul class="pillar-list">
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>80ms average response</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>On-device + cloud hybrid</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Zero impact on battery</li>
+        </ul>
+      </article>
+
+      <article class="glass pillar reveal">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L4 6v6c0 5 3 8 8 10 5-2 8-5 8-10V6z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3>Truly private</h3>
+        <p>We don't read your messages — our AI does, then forgets. We don't sell anything. You delete everything with one tap. Period.</p>
+        <ul class="pillar-list">
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>End-to-end encrypted</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>PDPA + GDPR compliant</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>One-tap data deletion</li>
+        </ul>
+      </article>
+
+      <article class="glass pillar reveal">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h3>Always evolving</h3>
+        <p>Scammers don't sleep. Neither do we. Every new attack pattern we catch makes the AI smarter for everyone — automatically.</p>
+        <ul class="pillar-list">
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Daily threat updates</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Powered by Claude AI</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Self-learning models</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA — head-turning closer ════════════════════════════════ -->
+<section class="final-cta">
+  <div class="container">
+    <div class="final-cta-inner reveal">
+      <h2>The scammers have AI.<br><span class="accent">Now you do too.</span></h2>
+      <p>Don't wait for a fake voice to call your mom. Don't wait for the deepfake video that drains your account. Get the shield. Today.</p>
+
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="#pricing" class="btn btn-primary btn-lg">
+          Shield me now — free for 7 days
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#demo" class="btn btn-secondary btn-lg">
+          Try the demo first
+        </a>
+      </div>
+
+      <div class="final-cta-strip">
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> No credit card needed</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Cancel in two taps</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 30-day money back</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="display:inline-flex">
+          <div class="nav-logo-mark">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          AIShield
+        </a>
+        <p>The first mobile defense built for AI-generated threats. By SpearCompute Sdn Bhd.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#demo">Try demo</a>
+        <a href="#">Download app</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy.html#pdpa">PDPA Notice</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html#cookies">Cookie Policy</a>
+        <a href="#" data-reopen-consent>Manage consent</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="contact.html">Support</a>
+        <a href="contact.html?type=sales">Talk to sales</a>
+        <a href="mailto:dpo@aishield.com">Data requests</a>
+        <a href="mailto:hello@aishield.com">hello@aishield.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 SpearCompute Sdn Bhd · All rights reserved</div>
+      <div class="footer-status">
+        <span class="live-dot"></span>
+        <span>All systems operational</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ COOKIE CONSENT BANNER ══════════════════════════════════════════ -->
+<div class="cookie-banner glass" id="cookie-banner">
+  <p>
+    <strong class="accent">🍪 We use cookies.</strong>
+    AIShield uses essential cookies and (with consent) analytics to improve your experience. We're <a href="privacy.html" style="color:var(--indigo-light);text-decoration:underline">PDPA</a> and <a href="privacy.html" style="color:var(--indigo-light);text-decoration:underline">GDPR</a> compliant.
+  </p>
+  <div class="cookie-actions">
+    <button class="btn btn-primary btn-sm" data-consent="all">Accept all</button>
+    <button class="btn btn-secondary btn-sm" data-consent="necessary">Necessary only</button>
+    <a href="privacy.html#cookies" class="btn btn-ghost btn-sm">Customize</a>
+  </div>
+</div>
+
+<!-- ═══ CHAT WIDGET ════════════════════════════════════════════════════ -->
+<div class="chat-fab">
+  <span class="chat-fab-label">Got a question? Ask 👋</span>
+  <button class="chat-fab-button" id="chat-fab" aria-label="Open chat">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+    </svg>
+  </button>
+</div>
+
+<div class="chat-panel glass" id="chat-panel">
+  <div class="chat-header">
+    <div>
+      <h4>AIShield Assistant</h4>
+      <span class="muted"><span class="live-dot"></span> Powered by Claude</span>
+    </div>
+    <button class="chat-close" id="chat-close" aria-label="Close chat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-msg bot">Hey 👋 Got questions about how we stop AI scams? I've got answers — fire away.</div>
+  </div>
+  <div class="chat-input-wrap">
+    <input id="chat-input" placeholder="Type your question..." />
+    <button class="btn btn-primary btn-sm" id="chat-send">Send</button>
+  </div>
+</div>
+
+<!-- ═══ MOBILE STICKY CTA ══════════════════════════════════════════════ -->
+<div class="mobile-cta">
+  <a href="#pricing" class="btn btn-primary">Shield me now — free for 7 days →</a>
+</div>
+
+<script src="assets/shared.js"></script>
+<script>
+  // ── Pricing toggle ──────────────────────────────────────────────
+  const monthlyBtn = document.getElementById('bill-monthly');
+  const annualBtn = document.getElementById('bill-annual');
+  const setBilling = (annual) => {
+    monthlyBtn.classList.toggle('active', !annual);
+    annualBtn.classList.toggle('active', annual);
+    document.querySelectorAll('[data-price-monthly]').forEach(el => el.style.display = annual ? 'none' : '');
+    document.querySelectorAll('[data-price-annual]').forEach(el => el.style.display = annual ? '' : 'none');
+  };
+  monthlyBtn.addEventListener('click', () => setBilling(false));
+  annualBtn.addEventListener('click', () => setBilling(true));
+
+  // ── Demo widget ─────────────────────────────────────────────────
+  const demoInput = document.getElementById('demo-input');
+  const demoAnalyze = document.getElementById('demo-analyze');
+  const demoClear = document.getElementById('demo-clear');
+  const demoResult = document.getElementById('demo-result');
+  const demoVerdict = document.getElementById('demo-verdict');
+  const demoReasoning = document.getElementById('demo-reasoning');
+
+  document.querySelectorAll('.demo-example').forEach(btn => {
+    btn.addEventListener('click', () => {
+      demoInput.value = btn.dataset.example;
+      demoInput.focus();
+    });
+  });
+
+  demoClear.addEventListener('click', () => {
+    demoInput.value = '';
+    demoResult.classList.remove('show');
+  });
+
+  async function analyzeWithClaude(text) {
+    demoAnalyze.disabled = true;
+    demoAnalyze.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="32 32"/></svg>Analyzing...';
+
+    try {
+      const res = await fetch('/api/anthropic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 600,
+          system: `You are AIShield's threat analyzer. Analyze the user's message for AI-generated scams, phishing, social engineering, voice/deepfake indicators, or fraud patterns. Respond ONLY in this exact JSON format:
+{"verdict": "threat|warning|safe", "title": "short verdict title (5 words max)", "reasoning": "2-3 sentence plain-English explanation of why, with specific red flags identified"}
+Be specific about which AI techniques are likely (LLM phishing, voice cloning hooks, deepfake setup, prompt injection). Cite specific suspicious phrases.`,
+          messages: [{ role: 'user', content: `Analyze this message:\n\n${text}` }]
+        })
+      });
+      const data = await res.json();
+      const raw = data.content?.[0]?.text || '';
+      const json = JSON.parse(raw.replace(/```json|```/g, '').trim());
+
+      demoResult.className = 'demo-result show ' + json.verdict;
+      demoVerdict.className = 'demo-verdict ' + json.verdict;
+      const icon = json.verdict === 'threat' ? '⚠️' : json.verdict === 'warning' ? '⚡' : '✓';
+      demoVerdict.innerHTML = `<span style="font-size:18px">${icon}</span> ${json.title}`;
+      demoReasoning.textContent = json.reasoning;
+    } catch (err) {
+      demoResult.className = 'demo-result show warning';
+      demoVerdict.className = 'demo-verdict warning';
+      demoVerdict.innerHTML = '<span style="font-size:18px">⚡</span> Analysis unavailable';
+      demoReasoning.textContent = 'The live demo needs the /api/anthropic Cloudflare Worker proxy to be active. Once deployed, this widget analyzes any text in real-time using Claude.';
+    } finally {
+      demoAnalyze.disabled = false;
+      demoAnalyze.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Analyze with Claude';
+    }
+  }
+
+  demoAnalyze.addEventListener('click', () => {
+    const text = demoInput.value.trim();
+    if (!text) {
+      demoInput.focus();
+      return;
+    }
+    analyzeWithClaude(text);
+  });
+</script>
+<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+
+</body>
+</html>

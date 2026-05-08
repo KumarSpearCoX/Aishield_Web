@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — AIShield</title>
+<meta name="description" content="AIShield's privacy policy, PDPA notice, and cookie policy. PDPA (Malaysia) and GDPR (EU) compliant." />
+<meta name="theme-color" content="#0a0a0f" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  .legal-page {
+    padding: 140px 0 60px;
+  }
+  .legal-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .legal-toc {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+    padding: 18px 0;
+  }
+  .legal-toc h5 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    margin-bottom: 12px;
+  }
+  .legal-toc a {
+    display: block;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--muted);
+    border-left: 2px solid var(--border);
+    transition: all 0.15s;
+  }
+  .legal-toc a:hover, .legal-toc a.active {
+    color: var(--indigo-light);
+    border-left-color: var(--indigo);
+  }
+
+  .legal-content { max-width: 720px; }
+  .legal-content h1 {
+    font-size: 38px;
+    margin-bottom: 12px;
+  }
+  .legal-content .updated {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legal-content section {
+    padding: 0;
+    margin-bottom: 44px;
+    scroll-margin-top: 100px;
+  }
+  .legal-content h2 {
+    font-size: 22px;
+    margin-bottom: 14px;
+    margin-top: 12px;
+  }
+  .legal-content h3 {
+    font-size: 16px;
+    margin-top: 26px;
+    margin-bottom: 8px;
+    color: var(--indigo-light);
+  }
+  .legal-content p {
+    font-size: 14.5px;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  .legal-content ul {
+    margin: 12px 0 18px 22px;
+    color: var(--text);
+  }
+  .legal-content li {
+    font-size: 14.5px;
+    line-height: 1.75;
+    padding: 4px 0;
+  }
+  .legal-content strong { color: var(--text); }
+  .legal-content a {
+    color: var(--indigo-light);
+    text-decoration: underline;
+  }
+  .legal-content .callout {
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-left: 3px solid var(--indigo);
+    background: var(--card);
+    border-radius: 0 10px 10px 0;
+  }
+  .legal-content .callout strong { color: var(--indigo-light); }
+
+  .cookie-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+  .cookie-table th, .cookie-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .cookie-table th {
+    background: var(--card);
+    font-size: 11.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .cookie-table td:first-child { font-family: var(--font-mono); color: var(--indigo-light); }
+
+  @media (max-width: 880px) {
+    .legal-grid { grid-template-columns: 1fr; gap: 30px; }
+    .legal-toc { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      AIShield
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#features" class="nav-link">Features</a>
+      <a href="pricing.html" class="nav-link">Pricing</a>
+      <a href="index.html#demo" class="nav-link">Try demo</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="pricing.html" class="btn btn-primary btn-sm">Shield me free</a>
+    </div>
+  </div>
+</header>
+
+<div class="legal-page">
+  <div class="container">
+    <div class="legal-grid">
+      <aside class="legal-toc">
+        <h5>On this page</h5>
+        <a href="#overview">Overview</a>
+        <a href="#data-collected">Data we collect</a>
+        <a href="#how-used">How we use it</a>
+        <a href="#third-parties">Third parties</a>
+        <a href="#your-rights">Your rights</a>
+        <a href="#retention">Data retention</a>
+        <a href="#pdpa">PDPA notice (Malaysia)</a>
+        <a href="#gdpr">GDPR (EU)</a>
+        <a href="#cookies">Cookie policy</a>
+        <a href="#contact">Contact DPO</a>
+      </aside>
+
+      <main class="legal-content">
+        <h1>Privacy Policy</h1>
+        <div class="updated">Last updated: 7 May 2026 · Effective: 7 May 2026</div>
+
+        <section id="overview">
+          <h2>Overview</h2>
+          <p>AIShield is operated by <strong>SpearCompute Sdn Bhd</strong> ("we", "us", "AIShield"), a company registered in Malaysia. This policy explains what personal data we collect, why we collect it, and what your rights are.</p>
+          <p>We're built on a simple principle: <strong>your data is yours</strong>. We don't sell it. We don't share it with advertisers. We collect only what's needed to protect you from threats, and we let you delete everything in one click.</p>
+          <div class="callout">
+            <strong>TL;DR:</strong> We collect minimal data, never sell it, and you can delete it anytime. PDPA and GDPR compliant.
+          </div>
+        </section>
+
+        <section id="data-collected">
+          <h2>Data we collect</h2>
+          <h3>Account information</h3>
+          <ul>
+            <li>Email address (for login and notifications)</li>
+            <li>Phone number (optional, for SMS alerts and 2FA)</li>
+            <li>Encrypted password hash (we never see your actual password)</li>
+            <li>Subscription tier and billing status</li>
+          </ul>
+
+          <h3>Threat detection data</h3>
+          <ul>
+            <li>Suspicious URLs, SMS content, or call metadata you submit for analysis</li>
+            <li>Device permission state (which apps have access to what)</li>
+            <li>Threat detection results and history</li>
+          </ul>
+
+          <h3>Technical data</h3>
+          <ul>
+            <li>App version, OS version, device model</li>
+            <li>Anonymized crash reports (with your consent)</li>
+            <li>IP address (for security and abuse prevention only)</li>
+          </ul>
+
+          <p>We do <strong>not</strong> collect: your contacts, your photos, your call recordings, your message contents (unless you submit them for scanning), your location (unless you grant explicit permission), or your browsing history.</p>
+        </section>
+
+        <section id="how-used">
+          <h2>How we use your data</h2>
+          <ul>
+            <li><strong>To protect you:</strong> Analyze submitted threats, detect AI-generated content, alert you to risks</li>
+            <li><strong>To run the service:</strong> Authenticate you, deliver notifications, process subscriptions</li>
+            <li><strong>To improve detection:</strong> Train our AI models on aggregated, anonymized threat patterns (you can opt out)</li>
+            <li><strong>To comply with law:</strong> Respond to lawful requests from authorities (we publish a transparency report)</li>
+          </ul>
+          <p>We use <strong>Anthropic's Claude API</strong> to analyze threats. Submitted text is sent to Anthropic for analysis under their <a href="https://www.anthropic.com/legal/privacy" target="_blank">privacy terms</a>. Anthropic does not train on this data. Sessions are not retained beyond the API request.</p>
+        </section>
+
+        <section id="third-parties">
+          <h2>Third parties we work with</h2>
+          <ul>
+            <li><strong>Anthropic</strong> — AI threat analysis (Claude API)</li>
+            <li><strong>Cloudflare</strong> — hosting, security, CDN</li>
+            <li><strong>Stripe</strong> — payment processing (we never see your card)</li>
+            <li><strong>Twilio</strong> — SMS delivery for alerts and 2FA</li>
+            <li><strong>SendGrid</strong> — transactional email delivery</li>
+          </ul>
+          <p>Each of these has been vetted for PDPA and GDPR compliance. We have signed Data Processing Agreements (DPAs) with all of them.</p>
+        </section>
+
+        <section id="your-rights">
+          <h2>Your rights</h2>
+          <p>You have the following rights over your data, regardless of where you are:</p>
+          <ul>
+            <li><strong>Access</strong> — Request a full copy of all data we hold on you</li>
+            <li><strong>Correct</strong> — Update inaccurate information at any time</li>
+            <li><strong>Delete</strong> — Erase everything we have ("right to be forgotten")</li>
+            <li><strong>Export</strong> — Download your data in JSON format</li>
+            <li><strong>Object</strong> — Opt out of analytics, marketing, or AI model improvement</li>
+            <li><strong>Restrict</strong> — Pause processing while disputes are resolved</li>
+            <li><strong>Complain</strong> — File a complaint with your data protection authority</li>
+          </ul>
+          <p>To exercise any of these rights, email <a href="mailto:dpo@aishield.com">dpo@aishield.com</a> or use the in-app data controls. We respond within <strong>14 days</strong> (faster than the 30-day legal requirement).</p>
+        </section>
+
+        <section id="retention">
+          <h2>Data retention</h2>
+          <ul>
+            <li>Account data: retained while your account is active, plus 30 days after deletion</li>
+            <li>Threat history: 7 days (Free), 1 year (Pro), as configured (Enterprise)</li>
+            <li>Submitted scan content: deleted within 24 hours after analysis</li>
+            <li>Audit logs: 1 year for security and legal compliance</li>
+            <li>Backups: rolling 30-day window, then permanently deleted</li>
+          </ul>
+        </section>
+
+        <section id="pdpa">
+          <h2>PDPA Notice (Malaysia)</h2>
+          <p>This section is published in compliance with the <strong>Personal Data Protection Act 2010 (Act 709)</strong> of Malaysia.</p>
+
+          <h3>Data User</h3>
+          <p>SpearCompute Sdn Bhd, registered in Malaysia, is the Data User in respect of your personal data.</p>
+
+          <h3>Purpose of processing</h3>
+          <p>We process your personal data for the purposes described in "How we use your data" above. Your data may be processed by our staff and authorized third parties (listed above) located in Malaysia, Singapore, the United States (Cloudflare, Anthropic), and the European Union.</p>
+
+          <h3>Disclosure</h3>
+          <p>We may disclose your data to: our service providers (under DPAs); regulators or law enforcement (when legally required); a successor entity in case of merger or acquisition (you'll be notified). We will never sell your data.</p>
+
+          <h3>Your rights under PDPA</h3>
+          <ul>
+            <li>Request access to your personal data (Section 30)</li>
+            <li>Request correction of inaccurate data (Section 34)</li>
+            <li>Withdraw consent for processing (Section 38)</li>
+            <li>Limit processing of your data (Section 42)</li>
+          </ul>
+
+          <h3>Consent</h3>
+          <p>By using AIShield, you consent to the processing described in this policy. You may withdraw consent at any time by emailing <a href="mailto:dpo@aishield.com">dpo@aishield.com</a> or deleting your account.</p>
+
+          <p>For PDPA-related complaints, you may also contact the <strong>Personal Data Protection Department of Malaysia (JPDP)</strong> at <a href="https://www.pdp.gov.my" target="_blank">pdp.gov.my</a>.</p>
+        </section>
+
+        <section id="gdpr">
+          <h2>GDPR (EU users)</h2>
+          <p>If you are in the EU, EEA, or UK, the General Data Protection Regulation (GDPR) and UK GDPR apply to your data.</p>
+          <p>The legal bases we rely on:</p>
+          <ul>
+            <li><strong>Contract</strong> — to provide the service you've signed up for</li>
+            <li><strong>Consent</strong> — for analytics, marketing, AI model improvement (you can withdraw)</li>
+            <li><strong>Legitimate interests</strong> — for fraud prevention, security, and service improvement</li>
+            <li><strong>Legal obligation</strong> — to comply with regulatory requirements</li>
+          </ul>
+          <p>Cross-border data transfers from the EU to Malaysia are protected by Standard Contractual Clauses (SCCs).</p>
+          <p>Our EU representative is appointed under Article 27 GDPR. Contact via <a href="mailto:eu-rep@aishield.com">eu-rep@aishield.com</a>.</p>
+          <p>You may file complaints with your local data protection authority. A list is available at <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_en" target="_blank">edpb.europa.eu</a>.</p>
+        </section>
+
+        <section id="cookies">
+          <h2>Cookie Policy</h2>
+          <p>AIShield's website uses cookies and similar technologies to provide and improve our service. You can manage your preferences anytime via the consent banner or the <a href="#" data-reopen-consent>Manage consent</a> link in our footer.</p>
+
+          <h3>Categories of cookies</h3>
+          <table class="cookie-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Purpose</th>
+                <th>Required?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Essential</td>
+                <td>Authentication, security, fraud prevention</td>
+                <td>Yes (no consent needed)</td>
+              </tr>
+              <tr>
+                <td>Functional</td>
+                <td>Remembering your preferences (theme, language)</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Analytics</td>
+                <td>Understanding how you use the site (aggregated)</td>
+                <td>No (opt-in)</td>
+              </tr>
+              <tr>
+                <td>Marketing</td>
+                <td>Measuring campaign effectiveness</td>
+                <td>No (opt-in)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>We do <strong>not</strong> use third-party advertising trackers, social media pixels, or session replay tools.</p>
+        </section>
+
+        <section id="contact">
+          <h2>Contact our Data Protection Officer</h2>
+          <p>For any privacy concern, data request, or complaint:</p>
+          <div class="callout">
+            <p style="margin: 0"><strong>Data Protection Officer (DPO)</strong><br>
+            SpearCompute Sdn Bhd<br>
+            Email: <a href="mailto:dpo@aishield.com">dpo@aishield.com</a><br>
+            Response time: within 14 days</p>
+          </div>
+          <p>For policy changes: we'll notify you by email at least 30 days before any material changes take effect.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex">
+          <div class="nav-logo-mark">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          AIShield
+        </a>
+        <p>The first mobile defense built for AI-generated threats. by SpearCompute Sdn Bhd.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="index.html#features">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="index.html#demo">Try demo</a>
+        <a href="#">Download app</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy.html#pdpa">PDPA Notice</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html#cookies">Cookie Policy</a>
+        <a href="#" data-reopen-consent>Manage consent</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="contact.html">Support</a>
+        <a href="contact.html?type=sales">Talk to sales</a>
+        <a href="mailto:dpo@aishield.com">Data requests</a>
+        <a href="mailto:hello@aishield.com">hello@aishield.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 SpearCompute Sdn Bhd · All rights reserved</div>
+      <div class="footer-status">
+        <span class="live-dot"></span>
+        <span>All systems operational</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-banner glass" id="cookie-banner">
+  <p><strong style="color:var(--indigo-light)">🍪 We use cookies.</strong> AIShield uses essential cookies and (with consent) analytics. <a href="privacy.html" style="color:var(--indigo-light);text-decoration:underline">PDPA</a> & <a href="privacy.html" style="color:var(--indigo-light);text-decoration:underline">GDPR</a> compliant.</p>
+  <div class="cookie-actions">
+    <button class="btn btn-primary btn-sm" data-consent="all">Accept all</button>
+    <button class="btn btn-secondary btn-sm" data-consent="necessary">Necessary only</button>
+    <a href="privacy.html#cookies" class="btn btn-ghost btn-sm">Customize</a>
+  </div>
+</div>
+
+<div class="chat-fab">
+  <span class="chat-fab-label">Got a question? Ask 👋</span>
+  <button class="chat-fab-button" id="chat-fab" aria-label="Open chat">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </button>
+</div>
+<div class="chat-panel glass" id="chat-panel">
+  <div class="chat-header">
+    <div><h4>AIShield Assistant</h4><span class="muted"><span class="live-dot"></span> Powered by Claude</span></div>
+    <button class="chat-close" id="chat-close" aria-label="Close chat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-msg bot">Hi 👋 Questions about how we handle your data? I'm happy to walk you through our privacy practices.</div>
+  </div>
+  <div class="chat-input-wrap">
+    <input id="chat-input" placeholder="Type your question..." />
+    <button class="btn btn-primary btn-sm" id="chat-send">Send</button>
+  </div>
+</div>
+
+<div class="mobile-cta">
+  <a href="pricing.html" class="btn btn-primary">Shield me now — free for 7 days →</a>
+</div>
+
+<script src="assets/shared.js"></script>
+<script>
+  // TOC active state
+  const tocLinks = document.querySelectorAll('.legal-toc a');
+  const sections = document.querySelectorAll('.legal-content section');
+  const setActive = () => {
+    let current = '';
+    sections.forEach(s => {
+      const top = s.getBoundingClientRect().top;
+      if (top < 120) current = s.id;
+    });
+    tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+  };
+  window.addEventListener('scroll', setActive, { passive: true });
+  setActive();
+</script>
+
+</body>
+</html>
