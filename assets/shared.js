@@ -164,8 +164,8 @@
 
   // Built-in FAQ fallback (works without API key)
   const FAQ = [
-    { keys: ['price', 'cost', 'how much', 'pricing'], a: "AIShield is free forever for basic protection. Pro is $4.99/month with a 7-day free trial (no card needed). Enterprise pricing is custom — head to /contact and we'll respond within 4 hours." },
-    { keys: ['trial', 'free'], a: "Yes! 7-day free trial of Pro, no credit card required. Cancel anytime. Hit 'Start free trial' at the top of the page." },
+    { keys: ['price', 'cost', 'how much', 'pricing'], a: "AIShield has a Freemium tier free for everyone. Premium is $4.99/month or $49.99/year. Enterprise pricing is custom — head to /contact and we'll respond within 4 hours." },
+    { keys: ['trial', 'free'], a: "Our Freemium tier is free forever — no card, no trial countdown. Upgrade to Premium ($4.99/month) when you want unlimited scans." },
     { keys: ['voice clone', 'deepfake', 'fake call'], a: "AIShield detects AI-generated voice clones in real-time using voice biometric analysis. We catch the synthetic audio signatures that traditional caller-ID can't see." },
     { keys: ['sms', 'phishing', 'scam text'], a: "Paste any suspicious SMS into our live demo on the home page — Claude analyzes it instantly and tells you if it's a threat. Free to try." },
     { keys: ['privacy', 'data', 'pdpa', 'gdpr'], a: "We're PDPA and GDPR compliant. We never sell your data, and you can delete everything with one click. Full policy at /privacy." },
@@ -193,7 +193,7 @@
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 600,
-          system: `You are AIShield's friendly support assistant. AIShield is a mobile app that defends against AI-generated cyber threats — voice clones, deepfake calls, AI-personalized phishing, and LLM-powered scams. It's powered by Anthropic's Claude. Pricing: Free forever (basic), Pro $4.99/month (7-day free trial, no card), Enterprise (custom — contact sales). PDPA + GDPR compliant. Be concise (2-3 sentences max), warm, and helpful. Steer toward starting a free trial when relevant. If asked something off-topic, politely redirect to AIShield-related help.`,
+          system: `You are AIShield's friendly support assistant. AIShield is a mobile app that defends against AI-generated cyber threats — voice clones, deepfake calls, AI-personalized phishing, and LLM-powered scams. It's powered by Anthropic's Claude. Pricing: Freemium tier free for everyone, Premium $4.99/month or $49.99/year, Enterprise (custom — contact sales). PDPA + GDPR compliant. Be concise (2-3 sentences max), warm, and helpful. Steer toward signing up for the Freemium tier when relevant. If asked something off-topic, politely redirect to AIShield-related help.`,
           messages: history,
         }),
       });
