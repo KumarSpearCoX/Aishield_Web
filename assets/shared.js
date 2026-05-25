@@ -171,7 +171,7 @@
     { keys: ['privacy', 'data', 'pdpa', 'gdpr'], a: "We're PDPA and GDPR compliant. We never sell your data, and you can delete everything with one click. Full policy at /privacy." },
     { keys: ['ios', 'iphone', 'apple'], a: "iPhone version is in beta — sign up for early access on the home page. Android is launching first." },
     { keys: ['enterprise', 'business', 'team'], a: "Yes — we offer enterprise plans with SSO, custom policies, and dedicated support. Visit /contact and select 'Sales' to talk to us." },
-    { keys: ['cancel', 'refund'], a: "Cancel anytime from your dashboard. We offer a 30-day money-back guarantee on all paid plans." },
+    { keys: ['cancel', 'refund'], a: "You can manage your subscription anytime from your dashboard." },
     { keys: ['claude', 'ai', 'anthropic'], a: "Yes — AIShield is powered by Claude (Anthropic's AI). It analyzes threats, explains them in plain language, and learns from new attack patterns daily." },
   ];
 
